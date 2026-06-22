@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kon ITR File Korbo — ITR Form Selector | Finative</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Premium Header & Nameplate -->
+  <header>
+    <div class="brand-section">
+      <div class="brand">Finative · Tax Diagnostics</div>
+      <h1>Kon ITR <em>file korbo?</em></h1>
+      <p class="sub">Provide a few basic details to instantly diagnose the correct Income Tax Return form (ITR-1 to ITR-7), the technical rationale, and step-by-step portal directions.</p>
+    </div>
+    <div class="yr-badge">
+      Assessment Year
+      <b>2026&#8209;27</b>
+      <span style="font-size: 10px; opacity: 0.8; display: block; margin-top: 2px;">FY 2025&#8209;26</span>
+    </div>
+  </header>
+
+  <!-- Split Dashboard Grid -->
+  <div class="dashboard-grid">
+    
+    <!-- Left Column: Diagnostic Inputs Form -->
+    <div class="form-pane">
+      <form id="f" class="card" novalidate>
+        <div class="card-header">
+          <span class="step-num">01</span>
+          <h2>Taxpayer Details</h2>
+          <span class="card-subtitle">* Marked fields are required</span>
+        </div>
+        
+        <div class="card-body">
+          <!-- Validation Errors Container -->
+          <div id="err" class="err-container"></div>
+
+          <!-- Section 1: Identity & Parameters -->
+          <fieldset>
+            <legend>Taxpayer Profile</legend>
+            <div class="input-grid">
+              <div class="input-group">
+                <label class="field-label" for="ttype">Taxpayer Type *</label>
+                <select id="ttype">
+                  <option value="individual">Individual (Byakti)</option>
+                  <option value="huf">HUF (Hindu Undivided Family)</option>
+                  <option value="firm">Partnership Firm (Non-LLP)</option>
+                  <option value="llp">LLP (Limited Liability Partnership)</option>
+                  <option value="company">Company (Pvt Ltd / Public Ltd)</option>
+                  <option value="aopboi">AOP / BOI</option>
+                  <option value="trust">Trust / Society / Sec 8 / Political Party</option>
+                </select>
+              </div>
+              <div class="input-group" id="resWrap">
+                <label class="field-label" for="res">Residential Status *</label>
+                <select id="res">
+                  <option value="ror">Resident (ROR)</option>
+                  <option value="rnor">Resident – Not Ordinarily Resident (RNOR)</option>
+                  <option value="nri">Non-Resident (NRI)</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="input-grid" id="dobWrap" style="margin-top: 8px;">
+              <div class="input-group">
+                <label class="field-label" for="dob">Date of Birth</label>
+                <input type="date" id="dob">
+                <div class="hint">Born on or after 1 April 2007 is ineligible for simple ITR-1.</div>
+              </div>
+              <div class="input-group">
+                <label class="field-label" for="income">Approx. Total Income *</label>
+                <select id="income">
+                  <option value="under50">Under ₹50 Lakh</option>
+                  <option value="50to100">₹50 Lakh – ₹1 Crore</option>
+                  <option value="over100">Above ₹1 Crore</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Section 2: Income Sources selection chips -->
+          <fieldset>
+            <legend>Income Sources</legend>
+            <div class="hint">Select all categories that apply to your income streams:</div>
+            
+            <div class="chips-container">
+              <label class="chip-label">
+                <input type="checkbox" id="s_salary">
+                <span class="chip-span">Salary / Pension</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_house">
+                <span class="chip-span">House Property (Bhara/Ghar)</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_busreg">
+                <span class="chip-span">Business — Regular Books</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_presum">
+                <span class="chip-span">Presumptive (44AD/44ADA/44AE)</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_cg">
+                <span class="chip-span">Capital Gains</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_other">
+                <span class="chip-span">Other Sources (Interest/Dividend)</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_lottery">
+                <span class="chip-span">Lottery / Horse-Race / Betting</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_agri">
+                <span class="chip-span">Agricultural Income</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_partner">
+                <span class="chip-span">Partner in a Firm</span>
+              </label>
+              <label class="chip-label">
+                <input type="checkbox" id="s_crypto">
+                <span class="chip-span">Crypto / VDA (Virtual Asset)</span>
+              </label>
+            </div>
+
+            <!-- Dynamic Conditional block: House Property details -->
+            <div class="conditional-block" id="c_house">
+              <div class="input-grid">
+                <div class="input-group">
+                  <label class="field-label" for="houseCount">Number of House Properties</label>
+                  <select id="houseCount">
+                    <option value="1">1 Property</option>
+                    <option value="2">2 Properties</option>
+                    <option value="3">More than 2 Properties</option>
+                  </select>
+                </div>
+                <div class="input-group" style="display: flex; align-items: flex-end; padding-bottom: 12px;">
+                  <label style="display: flex; align-items: center; font-size: 13px; font-weight: 600; cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="houseLoss" style="width: auto; margin-right: 8px; transform: scale(1.15);">
+                    Brought-forward House Loss exists
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Conditional block: Capital Gains details -->
+            <div class="conditional-block" id="c_cg">
+              <div class="input-group">
+                <label class="field-label" for="cgType">Type of Capital Gains</label>
+                <select id="cgType">
+                  <option value="small112a">Only LTCG u/s 112A (≤ ₹1.25 Lakh) and no capital losses to carry forward</option>
+                  <option value="other">Other Capital Gains (exceeding limit, short-term, or carry-forward losses)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Conditional block: Agricultural details -->
+            <div class="conditional-block" id="c_agri">
+              <div class="input-group">
+                <label class="field-label" for="agriAmt">Agricultural Income Amount</label>
+                <select id="agriAmt">
+                  <option value="le5000">₹5,000 or less</option>
+                  <option value="gt5000">More than ₹5,000</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Conditional block: Presumptive details -->
+            <div class="conditional-block" id="c_presum">
+              <div class="input-group">
+                <label class="field-label" for="presumFail">Presumptive constraints (e.g. Audit requirement, or income above ₹50L)?</label>
+                <select id="presumFail">
+                  <option value="ok">No, standard presumptive scheme (turnover/income within limits)</option>
+                  <option value="fail">Yes, turnover exceeds limit / regular books required / other complications</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Section 3: Advanced Situations Accordion -->
+          <details class="accordion-adv">
+            <summary>Advanced / Special Situations</summary>
+            <div class="accordion-body">
+              <div class="hint">Tick the options that apply to you during the fiscal year:</div>
+              <div class="chips-container">
+                <label class="chip-label">
+                  <input type="checkbox" id="x_director">
+                  <span class="chip-span">Held Director seat in any company</span>
+                </label>
+                <label class="chip-label">
+                  <input type="checkbox" id="x_unlisted">
+                  <span class="chip-span">Held Unlisted Equity Shares</span>
+                </label>
+                <label class="chip-label">
+                  <input type="checkbox" id="x_foreign">
+                  <span class="chip-span">Foreign Assets / Foreign Income / Signing Authority</span>
+                </label>
+                <label class="chip-label">
+                  <input type="checkbox" id="x_esop">
+                  <span class="chip-span">ESOP Deferred Tax details (Startup employee)</span>
+                </label>
+                <label class="chip-label">
+                  <input type="checkbox" id="x_clubbing">
+                  <span class="chip-span">Clubbed Income / Section 5A / TDS on others</span>
+                </label>
+              </div>
+            </div>
+          </details>
+
+          <!-- Form Actions -->
+          <div class="button-row">
+            <button type="submit" class="btn-primary">
+              Bolo amar ITR
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+            <button type="button" class="btn-reset" id="resetBtn">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Interactive Diagnostic Report -->
+    <div class="results-pane">
+      <div id="result" aria-live="polite">
+        <!-- Default Empty State -->
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+          <h3>Awaiting Inputs</h3>
+          <p>Tomar details left side-er card layout-e select koro, recommended return report ekhane active hobe.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer Credits -->
+  <footer>
+    Designed and built by <b>Finative Solution Team</b> &bull; Tax Rule Configurations &copy; AY 2026-27 (FY 2025-26), Income-tax Act 1961.
+    <br>
+    <span style="font-size: 11px; opacity: 0.75; margin-top: 4px; display: inline-block;">This diagnostic utility is for informational guidance; consult a certified tax professional before final filing.</span>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
